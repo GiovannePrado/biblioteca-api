@@ -1,6 +1,6 @@
 import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
-export class alteraFilmeDTO{
+export class alteraLivroDTO{
     @IsString()
     @IsNotEmpty({message: "nome Não pode ser vazio"})
     @IsOptional()

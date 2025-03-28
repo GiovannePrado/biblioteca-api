@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { LivroEntity } from "./livro.entity";
 
 import { criaLivroDTO } from "./dto/livros.dto";
@@ -6,6 +6,7 @@ import { criaLivroDTO } from "./dto/livros.dto";
 import {v4 as uuid} from 'uuid';
 import { LivroArmazenados } from "./livro.dm";
 import { listaLivroDTO } from "./dto/consultaLivro.dto";
+import { alteraLivroDTO } from "./dto/alteraLivro.dto";
 
 @Controller('/livros')
 export class LivrosController{
@@ -42,5 +43,25 @@ export class LivrosController{
         ) 
         
         return listaRetorno;
+    }
+
+    @Put('/:id')
+    async atualizaLivro(@Param('id') id: string, @Body() novosDados: alteraLivroDTO){
+        const livroAtualizado = await this.clsLivrosArmazenados.atualizaLivro(id, novosDados)
+
+        return{
+            livro: livroAtualizado,
+            message: 'livro atualizado'
+        }
+    }
+
+    @Delete('/:id')
+    async removeFilme(@Param('id') id: string){
+        const livroRemovido = await this.clsLivrosArmazenados.removeLivro(id)
+
+        return{
+            livro: livroRemovido,
+            message: 'livro removido'
+        }
     }
 }
